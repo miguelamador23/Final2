@@ -26,7 +26,7 @@ const imageContainer2Style = {
 function Sidebar({ cityName }) {
   const [searchText, setSearchText] = useState('');
   const [temperature, setTemperature] = useState(null);
-  const [description, setDescription] = useState(''); // Estado para la descripción del clima
+  const [description, setDescription] = useState(''); 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -45,7 +45,7 @@ function Sidebar({ cityName }) {
         console.log('Datos climáticos:', data);
         const celsius = Math.floor(data.current.temp - 273.15);
         setTemperature(celsius);
-        setDescription(data.current.weather[0].description); // Obtenemos la descripción del clima
+        setDescription(data.current.weather[0].description); 
       })
       .catch(error => {
         console.error('Error al obtener datos climáticos:', error);
@@ -62,7 +62,7 @@ function Sidebar({ cityName }) {
             console.log('Datos climáticos de ubicación actual:', data);
             const celsius = Math.floor(data.current.temp - 273.15);
             setTemperature(celsius);
-            setDescription(data.current.weather[0].description); // Obtenemos la descripción del clima
+            setDescription(data.current.weather[0].description); 
           })
           .catch(error => {
             console.error('Error al obtener datos climáticos:', error);
@@ -121,10 +121,10 @@ function Sidebar({ cityName }) {
       </Drawer>
 
       <div className="image-container2" style={imageContainer2Style}>
-        <img src="src/weather-app-master/Clear.png" alt="Mi Imagen" style={{ width: '200px', marginTop: '150px' }} />
+        <img src="src/weather-app-master/Clear.png" alt="Mi Imagen" style={{ width: '150px', marginTop: '160px', zIndex: -1 }} />
       </div>
       <div className="image-container" style={{ opacity: 0.2, zIndex: -1 }}>
-        <img src="src/weather-app-master/Cloud-background.png" alt="Mi Imagen" style={{ width: '510px' }} />
+        <img src="src/weather-app-master/Cloud-background.png" alt="Mi Imagen" style={{ width: '500px' }} />
       </div>
       {temperature !== null && (
         <div className="center-text">

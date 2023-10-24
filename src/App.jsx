@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import Sidebar from './components/Sidebar';
 import Grib from './components/Grib';
+import Grib2 from './components/Grib2';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Sidebar />
       <div className="grib">
         <Grib />
+        <Grib2/>
       </div>
     </div>
   );
