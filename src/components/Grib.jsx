@@ -4,14 +4,17 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
 import axios from 'axios';
+import sunnyImage from '../weather-app-master/Clear.png';
+import './style.css';
 
 function Grib() {
     const [weatherData, setWeatherData] = useState([]);
 
     useEffect(() => {
-        axios.get('https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude={part}&appid=deccf3474efa27ddf6ec3fba5099fa33')
+        axios
+            .get('https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&appid=deccf3474efa27ddf6ec3fba5099fa33')
             .then(response => {
-                const forecastData = response.data.daily.slice(0, 5); 
+                const forecastData = response.data.hourly.slice(0, 4);
                 setWeatherData(forecastData);
             })
             .catch(error => {
@@ -20,15 +23,14 @@ function Grib() {
     }, []);
 
     return (
-        <Grid container spacing={2}>
-            {weatherData.map((day, index) => (
+        <Grid container spacing={2} className="weather-grid">
+            {weatherData.map((hour, index) => (
                 <Grid item xs={12} sm={6} md={3} key={index}>
-                    <Card>
-                        <CardHeader title='Tomorrow' />
+                    <Card className="weather-card">
+                        <CardHeader title='Tomorrow' className="small-title" />
                         <CardContent>
-                            <p>{day.temp.max}°C</p>
-                            <p>{day.temp.min}°C</p>
-                            {/* Agrega más contenido si es necesario */}
+                            <img src={sunnyImage} alt="Sunny" className="weather-icon" />
+                            <p className="temp">{Math.round(hour.temp - 273.15)}°C</p>
                         </CardContent>
                     </Card>
                 </Grid>
