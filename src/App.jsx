@@ -6,6 +6,7 @@ import Grib from './components/Grib';
 import Grib2 from './components/Grib2';
 
 function App() {
+  
   return (
     <div className="app-container">
       <Sidebar />
