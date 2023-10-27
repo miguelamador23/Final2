@@ -8,6 +8,7 @@ import Drawer from '@mui/material/Drawer';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import sunnyImage from '/Clear.png';
+import Clouds from '/Cloud-background.png';
 
 const CircleButton = styled(Button)`
   width: 40px;
@@ -122,7 +123,7 @@ function Sidebar({ cityName }) {
             </Drawer>
 
             <div style={{ position: 'relative' }}>
-                <img src="/Cloud-background.png" alt="Mi Imagen" style={{ width: '500px', position: 'absolute', top: 0, left: 0, zIndex: 1, opacity: 0.3  }} />
+                <img src={Clouds} alt="Mi Imagen" style={{ width: '500px', position: 'absolute', top: 0, left: 0, zIndex: 1, opacity: 0.3  }} />
                 <img src={sunnyImage} alt="Sunny" className="imageContainer2" style={{ ...imageContainer2Style, zIndex: 2 }} />
             </div>
 
