@@ -121,10 +121,10 @@ function Sidebar({ cityName }) {
       </Drawer>
 
       <div className="image-container2" style={imageContainer2Style}>
-        <img src="/img/Clear.png" alt="Mi Imagen" style={{ width: '150px', marginTop: '160px', zIndex: -1 }} />
+        <img src="/Clear.png" alt="Mi Imagen" style={{ width: '150px', marginTop: '160px', zIndex: -1 }} />
       </div>
       <div className="image-container" style={{ opacity: 0.2, zIndex: -1 }}>
-        <img src="/img/Cloud-background.png" alt="Mi Imagen" style={{ width: '500px' }} />
+        <img src="/Cloud-background.png" alt="Mi Imagen" style={{ width: '500px' }} />
       </div>
       {temperature !== null && (
         <div className="center-text">
