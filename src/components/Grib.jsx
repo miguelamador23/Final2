@@ -12,25 +12,31 @@ function Grib() {
 
     useEffect(() => {
         axios
-            .get('https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&appid=deccf3474efa27ddf6ec3fba5099fa33')
+            .get('https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=current,minutely,hourly&appid=deccf3474efa27ddf6ec3fba5099fa33')
             .then(response => {
-                const forecastData = response.data.hourly.slice(0, 4);
-                setWeatherData(forecastData);
+                const dailyForecastData = response.data.daily.slice(1, 5); 
+                setWeatherData(dailyForecastData);
             })
             .catch(error => {
                 console.error('Error al obtener datos del pronóstico:', error);
             });
     }, []);
 
+    const formatDate = timestamp => {
+        const date = new Date(timestamp * 1000);
+        const options = { weekday: 'long' };
+        return new Intl.DateTimeFormat('en-US', options).format(date);
+    };
+
     return (
         <Grid container spacing={2} className="weather-grid">
-            {weatherData.map((hour, index) => (
+            {weatherData.map((day, index) => (
                 <Grid item xs={12} sm={6} md={3} key={index}>
                     <Card className="weather-card">
-                        <CardHeader title='Tomorrow' className="small-title" />
+                        <CardHeader title={formatDate(day.dt)} className="small-title" />
                         <CardContent>
                             <img src={sunnyImage} alt="Sunny" className="weather-icon" />
-                            <p className="temp">{Math.round(hour.temp - 273.15)}°C</p>
+                            <p className="temp">{Math.round(day.temp.day - 273.15)}°C</p>
                         </CardContent>
                     </Card>
                 </Grid>
