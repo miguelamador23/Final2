@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
 import axios from 'axios';
-import sunnyImage from '../weather-app-master/Clear.png';
+import sunnyImage from '/img/Clear.png';
 import './style.css';
 
 function Grib() {
