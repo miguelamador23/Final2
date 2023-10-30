@@ -7,20 +7,23 @@ import axios from 'axios';
 import sunnyImage from '/Clear.png';
 import './style.css';
 
-function Grib() {
+function Grib({ setTemperature }) {
     const [weatherData, setWeatherData] = useState([]);
 
     useEffect(() => {
         axios
             .get('https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=current,minutely,hourly&appid=deccf3474efa27ddf6ec3fba5099fa33')
             .then(response => {
-                const dailyForecastData = response.data.daily.slice(1, 5); 
+                const dailyForecastData = response.data.daily.slice(1, 5);
                 setWeatherData(dailyForecastData);
+
+                const temperature = Math.round(dailyForecastData[0].temp.day - 273.15);
+                setTemperature(temperature);
             })
             .catch(error => {
                 console.error('Error al obtener datos del pronóstico:', error);
             });
-    }, []);
+    }, [setTemperature]);
 
     const formatDate = timestamp => {
         const date = new Date(timestamp * 1000);
