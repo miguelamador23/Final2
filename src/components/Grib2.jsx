@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
-import "./style.css"; 
+import "./style.css";
 
 
 function getWeatherDataByCoords(latitude, longitude) {
@@ -20,9 +20,9 @@ function getWeatherDataByCoords(latitude, longitude) {
 
 function Grib2() {
     const [weatherData, setWeatherData] = useState(null);
-    const [showLocationData, setShowLocationData] = useState(false); 
+    const [showLocationData, setShowLocationData] = useState(false);
 
-    
+
     const handleGetLocationClick = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(async (position) => {
@@ -38,7 +38,7 @@ function Grib2() {
         }
     };
 
-   
+
     useEffect(() => {
         async function fetchData() {
             const weatherInfo = await getWeatherDataByCoords(33.44, -94.04);
@@ -47,7 +47,7 @@ function Grib2() {
             }
         }
         fetchData();
-    }, []); 
+    }, []);
 
     return (
         <div className="centered-content">
