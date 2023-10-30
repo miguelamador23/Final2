@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
+import LinearProgress from '@mui/material/LinearProgress';
 
-function Grib2({ selectedState }) {
+
+function Grib2({ selectedState, updateWeatherData }) {
   const [weatherData, setWeatherData] = useState(null);
 
   useEffect(() => {
     const getWeatherData = async () => {
       if (selectedState) {
-        
         const apiKey = 'deccf3474efa27ddf6ec3fba5099fa33';
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${selectedState}&appid=${apiKey}`);
         if (response.ok) {
@@ -20,6 +21,7 @@ function Grib2({ selectedState }) {
             visibility: data.visibility,
             pressure: data.main.pressure,
           });
+          updateWeatherData({ latitude: data.coord.lat, longitude: data.coord.lon }); 
         } else {
           console.error('Error al obtener datos del clima');
         }
@@ -36,33 +38,34 @@ function Grib2({ selectedState }) {
       </div>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6}>
-          <Card>
+          <Card style={{ backgroundColor: 'rgb(20, 31, 87)', color: 'white' }}>
             <CardContent>
-              <h2>Wind Status</h2>
+              <h2 className='custom-card'>Wind Status</h2>
               {weatherData && weatherData.wind_speed} m/s
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={6}>
-          <Card>
+          <Card style={{ backgroundColor: 'rgb(20, 31, 87)', color: 'white' }}>
             <CardContent>
-              <h2>Humidity</h2>
+            <h2 className='custom-card'>Humidity</h2>
               {weatherData && weatherData.humidity}%
+              <LinearProgress variant="determinate" value={weatherData ? weatherData.humidity : 0} />
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={6}>
-          <Card>
+          <Card style={{ backgroundColor: 'rgb(20, 31, 87)', color: 'white' }}>
             <CardContent>
-              <h2>Visibility</h2>
+              <h2 className='custom-card'>Visibility</h2>
               {weatherData && weatherData.visibility} meters
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={6}>
-          <Card>
+          <Card style={{ backgroundColor: 'rgb(20, 31, 87)', color: 'white' }}>
             <CardContent>
-              <h2>Air Pressure</h2>
+              <h2 className='custom-card'>Air Pressure</h2>
               {weatherData && weatherData.pressure} hPa
             </CardContent>
           </Card>
