@@ -1,7 +1,9 @@
 * {
     font-family: 'Raleway', sans-serif;
 }
-
+body{
+    background-color: rgb(26, 12, 89);
+}
 .colored-column {
     background-color: rgb(7, 22, 98);
     max-width: 450px; 

@@ -1,21 +1,24 @@
-import './components/style.css';
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Grib from './components/Grib';
 import Grib2 from './components/Grib2';
 
 function App() {
-  
-  return (
-    <div className="app-container">
-      <Sidebar />
-      <div className="grib">
-        <Grib />
-        <Grib2/>
-      </div>
-    </div>
-  );
+  const [selectedCity, setSelectedCity] = useState(null);
+
+  const handleSelectedStateChange = (newSelectedState) => {
+    setSelectedCity(newSelectedState);
+  };
+
+    return (
+        <div className="app-container">
+            <Sidebar setSelectedCity={handleSelectedStateChange} />
+            <div className="grib">
+                <Grib selectedCity={selectedCity} />
+                <Grib2 selectedState={selectedCity} />
+            </div>
+        </div>
+    );
 }
 
 export default App;
