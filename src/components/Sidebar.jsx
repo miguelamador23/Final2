@@ -26,7 +26,7 @@ const imageContainer2Style = {
     transform: 'translate(-50%, -50%)',
 };
 
-const states = [
+const allStates = [
     'Alabama',
     'Alaska',
     'Arizona',
@@ -35,6 +35,48 @@ const states = [
     'Colorado',
     'Connecticut',
     'Delaware',
+    'Florida',
+    'Georgia',
+    'Hawaii',
+    'Idaho',
+    'Illinois',
+    'Indiana',
+    'Iowa',
+    'Kansas',
+    'Kentucky',
+    'Louisiana',
+    'Maine',
+    'Maryland',
+    'Massachusetts',
+    'Michigan',
+    'Minnesota',
+    'Mississippi',
+    'Missouri',
+    'Montana',
+    'Nebraska',
+    'Nevada',
+    'New Hampshire',
+    'New Jersey',
+    'New Mexico',
+    'New York',
+    'North Carolina',
+    'North Dakota',
+    'Ohio',
+    'Oklahoma',
+    'Oregon',
+    'Pennsylvania',
+    'Rhode Island',
+    'South Carolina',
+    'South Dakota',
+    'Tennessee',
+    'Texas',
+    'Utah',
+    'Vermont',
+    'Virginia',
+    'Washington',
+    'West Virginia',
+    'Wisconsin',
+    'Wyoming'
 ];
 
 function Sidebar() {
@@ -42,7 +84,10 @@ function Sidebar() {
     const [description, setDescription] = useState('');
     const [currentDate, setCurrentDate] = useState(new Date());
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [selectedState, setSelectedState] = useState('Alabama');
+    const [selectedState, setSelectedState] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredStates, setFilteredStates] = useState(allStates);
+    const [askedForLocation, setAskedForLocation] = useState(false); // Nuevo estado
 
     const openMenu = () => {
         setIsMenuOpen(true);
@@ -54,7 +99,7 @@ function Sidebar() {
 
     const handleSearchClick = () => {
         if (selectedState !== 'Current Location') {
-            fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${selectedState}&limit=1&appid=deccf3474efa27ddf6ec3fba5099fa33`)
+            fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${selectedState}&limit=1&appid=deccf3474efa27ddf6ec3fba5099fa33`)
                 .then(response => response.json())
                 .then(data => {
                     const cityLatitude = data[0].lat;
@@ -66,7 +111,10 @@ function Sidebar() {
                     console.error('Error al obtener las coordenadas de la ciudad:', error);
                 });
         } else {
-            handleGetLocationClick();
+            if (!askedForLocation) {
+                handleGetLocationClick();
+                setAskedForLocation(true); // Marcar que ya se preguntó por la ubicación
+            }
         }
     };
 
@@ -84,7 +132,25 @@ function Sidebar() {
     };
 
     const handleGetLocationClick = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                obtenerPronosticoPorCoordenadas(latitude, longitude);
+                setSelectedState('My Location');
+            }, (error) => {
+                console.error('Error al obtener la ubicación del usuario:', error);
+            });
+        } else {
+            console.error('La geolocalización no es compatible en este navegador.');
+        }
+    };
 
+    const handleSearchInputChange = (event) => {
+        const query = event.target.value;
+        setSearchQuery(query);
+        const filtered = allStates.filter(state => state.toLowerCase().includes(query.toLowerCase()));
+        setFilteredStates(filtered);
     };
 
     const updateCurrentDate = () => {
@@ -124,8 +190,16 @@ function Sidebar() {
             </Stack>
 
             <Drawer anchor="left" open={isMenuOpen} onClose={closeMenu}>
+                <div>
+                    <input
+                        type="text"
+                        placeholder="Search states"
+                        onChange={handleSearchInputChange}
+                        value={searchQuery}
+                    />
+                </div>
                 <List>
-                    {states.map((state, index) => (
+                    {filteredStates.map((state, index) => (
                         <ListItem
                             button
                             key={index}
@@ -141,7 +215,8 @@ function Sidebar() {
             </Drawer>
 
             <div style={{ position: 'relative' }}>
-                <img src={Clouds} alt="Mi Imagen" style={{ width: '100%', position: 'absolute', top: 0, left: 0, zIndex: 1, opacity: 0.3 }} />        <img src={sunnyImage} alt="Sunny" className="imageContainer2" style={{ ...imageContainer2Style, zIndex: 2 }} />
+                <img src={Clouds} alt="Mi Imagen" style={{ width: '100%', position: 'absolute', top: 0, left: 0, zIndex: 1, opacity: 0.3 }} />
+                <img src={sunnyImage} alt="Sunny" className="imageContainer2" style={{ ...imageContainer2Style, zIndex: 2 }} />
             </div>
 
             {temperature !== null && (
@@ -157,7 +232,7 @@ function Sidebar() {
                     <Stack direction="row" alignItems="center" className="centered-text">
                         <RoomIcon fontSize="small" style={{ color: 'white' }} />
                         <Typography variant="subtitle1">
-                            {selectedState}
+                            {selectedState || 'Select a location'}
                         </Typography>
                     </Stack>
                 </div>
